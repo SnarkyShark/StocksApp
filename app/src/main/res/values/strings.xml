@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">StocksApp</string>
+
+    <string name="enter_stock_symbol">Enter Stock Symbol</string>
+
+    <!-- BUTTONS -->
+    <string name="add_button">Add</string>
+    <string name="cancel_button">Cancel</string>
+
+    <string name="symbol">Symbol:</string>
+    <string name="last_price">Last Price:</string>
+    <string name="company_name">Company Name</string>
+    <string name="invalid_symbol">You\'ve entered an invalid symbol!</string>
+    <string name="delete">Delete</string>
+    <string name="company_name_details">Company Name</string>
+    <string name="stock_price">Stock Price</string>
+    <string name="please_enter_the_stock_symbol">Please enter a stock symbol: </string>
+    <string name="e_g_goog_for_alphabet">e.g GOOG for Alphabet Inc</string>
+    <string name="the_list_is_empty">Press + to add a stock!</string>
+    <string name="press_on_a_stock">Press on a Stock!</string>
+    <string name="new_stock">New</string>
+</resources>
