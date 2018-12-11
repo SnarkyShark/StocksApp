@@ -5,10 +5,12 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,7 +21,7 @@ import edu.temple.stocksapp.utilities.StockUpdateService;
 import edu.temple.stocksapp.utilities.Utility;
 
 public class MainActivity extends AppCompatActivity
-        implements addStock.AddNewStockInterface,
+        implements /*addStock.AddNewStockInterface, */
         PortfolioFragment.PortfolioInterface {
 
 
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity
     boolean twoPanes;
     String newStockJson = null;
     Utility utility;
+
+    static final int ADD_STOCK = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +52,10 @@ public class MainActivity extends AppCompatActivity
         launchAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddNewStockDialog newStockDialog = new AddNewStockDialog();
-                newStockDialog.show(getSupportFragmentManager(), "AddNewStockDialog");
+                Intent addStockIntent = new Intent(MainActivity.this, addStock.class);
+                startActivityForResult(addStockIntent, ADD_STOCK);
+                //AddNewStockDialog newStockDialog = new AddNewStockDialog();
+                //newStockDialog.show(getSupportFragmentManager(), "AddNewStockDialog");
             }
         });
 
@@ -64,6 +70,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK && requestCode == ADD_STOCK) {
+            String userInputStock = data.getStringExtra("company");
+            Log.i("msgpass", "stock: " + userInputStock);
+            getNewStockJson(userInputStock.toUpperCase());
+        }
+    }
+
+    /*
+    @Override
     public void onDialogPositiveClick(android.support.v4.app.DialogFragment dialogFragment) {
 
         EditText stockEditText = (EditText) dialogFragment.getDialog().findViewById(R.id.stock_editText);
@@ -74,6 +92,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDialogNegativeClick(android.support.v4.app.DialogFragment dialogFragment) {
     }
+    */
 
     @Override
     public void addStockToList(Stock stock) {

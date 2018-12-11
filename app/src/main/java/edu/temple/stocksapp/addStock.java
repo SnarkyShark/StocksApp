@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -18,11 +19,9 @@ public class addStock extends Activity  {
 
     Button addButton, cancelButton;
     EditText stockEditText;
-    ProgressDialog pd;
-    AddNewStockInterface mListener;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_window);
 
@@ -39,21 +38,25 @@ public class addStock extends Activity  {
 
         getWindow().setLayout((int)(width * .8), (int) (height * .4));
 
-        // exit popup if user cancels
+
+
         cancelButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                //mListener.onDialogNegativeClick(addStock.this);
+                setResult(Activity.RESULT_CANCELED);
                 finish();
             }
         });
 
-        // adds stock to portfolio_file
-        // TODO: runs into issue where it returns "bad" too soon, then doesn't return correct the first time
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //mListener.onDialogPositiveClick(addStock.this);
+                String company = stockEditText.getText().toString();
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("company", company);
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
             }
         });
     }
@@ -62,10 +65,6 @@ public class addStock extends Activity  {
         return stockEditText.getText().toString();
     }
 
-    public interface AddNewStockInterface {
 
-        void onDialogPositiveClick(android.support.v4.app.DialogFragment dialogFragment);
-        void onDialogNegativeClick(android.support.v4.app.DialogFragment dialogFragment);
-    }
 }
 
